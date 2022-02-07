@@ -23,6 +23,13 @@ def get_tp_names(code):
     result = [{'FIO': fio, 'PASS': passw} for fio, passw in data_db.get_get_tp_names_data(code)]
     return jsonify(result)
 
+@app.route('/get_login_pass', methods=['GET'])
+def get_login_passwd():
+    login = request.args.get('login')
+    passwd = request.args.get('pass')
+    result = data_db.get_get_login_passwd(login, passwd)
+    print(result)
+    return 'Как дела?'
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=80)

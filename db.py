@@ -7,7 +7,7 @@ CONN_STRING = f"""
                 SERVER={SERVER_NAME};
                 Trust_connection=no;
                 UID=Anton;
-                PWD=QAZxswedc321;
+                PWD=3Wasdfghjkl;
             """
 
 
@@ -27,4 +27,15 @@ def get_get_tp_names_data(tp_code):
         row = cursor.fetchall()
         print(row)
     return row
+
+
+def get_get_login_passwd(login, passwd):
+    with pyodbc.connect(CONN_STRING) as connection:
+        cursor = connection.cursor()
+        cursor.execute(f"SELECT ФИО, Пароль FROM Orion.dbo.Сотрудники WHERE ФИО = \'{login}\' AND Пароль = \'{passwd}\'")
+        row = cursor.fetchall()
+        if not row:
+            return 'FALSE'
+        else:
+            return 'TRUE'
 
