@@ -32,7 +32,7 @@ def get_get_tp_names_data(tp_code):
 def get_get_login_passwd(login, passwd):
     with pyodbc.connect(CONN_STRING) as connection:
         cursor = connection.cursor()
-        cursor.execute(f"SELECT ФИО, Пароль FROM Orion.dbo.Сотрудники WHERE ФИО = \'{login}\' AND Пароль = \'{passwd}\'")
+        cursor.execute(f"SELECT ФИО, Пароль FROM Orion.dbo.Сотрудники WHERE Логин = \'{login}\' AND Пароль = \'{passwd}\'")
         row = cursor.fetchall()
         if not row:
             return 'FALSE'
