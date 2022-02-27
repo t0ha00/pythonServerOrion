@@ -19,7 +19,6 @@ def get_tp():
 
 @app.route('/get_tp_names/<code>', methods=['GET'])
 def get_tp_names(code):
-    print(code)
     result = [{'FIO': fio, 'PASS': passw} for fio, passw in data_db.get_get_tp_names_data(code)]
     return jsonify(result)
 
@@ -31,6 +30,7 @@ def get_login_passwd():
     result = data_db.get_get_login_passwd(login, passwd)
     print(result)
     return result
+
 
 
 if __name__ == '__main__':
