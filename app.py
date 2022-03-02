@@ -17,12 +17,6 @@ def get_tp():
     return jsonify(result)
 
 
-@app.route('/get_tp_names/<code>', methods=['GET'])
-def get_tp_names(code):
-    result = [{'FIO': fio, 'PASS': passw} for fio, passw in data_db.get_get_tp_names_data(code)]
-    return jsonify(result)
-
-
 @app.route('/get_login_pass', methods=['GET'])
 def get_login_passwd():
     login = request.args.get('login')
@@ -31,6 +25,13 @@ def get_login_passwd():
     print(result)
     return result
 
+
+@app.route('/get_collaborator_list_num_goups', methods=['GET'])
+def get_collaborator_list_num_goups():
+    code2 = request.args.get('code')
+    result = [{'CODE': code, 'NAME': i, 'NUMBER': n} for code, i, n in data_db.get_get_collaborator_list_num_goups(code2)]
+    print(result)
+    return jsonify(result)
 
 
 if __name__ == '__main__':
