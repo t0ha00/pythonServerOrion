@@ -26,10 +26,16 @@ def get_login_passwd():
     return result
 
 
-@app.route('/get_collaborator_list_num_goups', methods=['GET'])
-def get_collaborator_list_num_goups():
+@app.route('/get_collaborator_list_num_groups', methods=['GET'])
+def get_collaborator_list_num_groups():
     code2 = request.args.get('code')
-    result = [{'CODE': code, 'NAME': i, 'NUMBER': n} for code, i, n in data_db.get_get_collaborator_list_num_goups(code2)]
+    checked = request.args.get('checked')
+    if checked == "true":
+        result = [{'CODE': code, 'NAME': i} for code, i in
+                  data_db.get_get_collaborator_list_num_groups_checked(code2)]
+    else:
+        result = [{'CODE': code, 'NAME': i, 'NUMBER': n} for code, i, n in
+                  data_db.get_get_collaborator_list_num_groups(code2)]
     print(result)
     return jsonify(result)
 

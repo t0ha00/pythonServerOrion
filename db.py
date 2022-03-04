@@ -53,16 +53,27 @@ def get_get_subdivision_list(code):
 
 
 # Get Collaborator List with number of groups
-def get_get_collaborator_list_num_goups (code):
+def get_get_collaborator_list_num_groups(code):
     with pyodbc.connect(CONN_STRING) as connection:
         cursor = connection.cursor()
-        cursor.execute(f"SELECT [Сотрудники].[Код], substring([ФИО], 1, charindex(' ', [ФИО]))+substring([ФИО], " 
-                       f"charindex(' ', [ФИО])+1,1)+'.'+substring([ФИО], charindex(' ', [ФИО], " 
-                       f"charindex(' ', [ФИО])+1)+1,1)+'.' as i , COUNT(t.[id]) AS n " 
-                       f"FROM Orion.dbo.Сотрудники right OUTER JOIN " 
-                       f"(SELECT [Код], [Закрытие], [Ответственный], [id] " 
-                       f"FROM Orion.dbo.[Группы] WHERE ([Закрытие] = 0)) t ON [Сотрудники].[ФИО] = t.[Ответственный] " 
-                       f"WHERE ([Запись_удалена] = 0) And ([Ответственный_за_группы] = 1 And [Код_филиала] = {code}) " 
+        cursor.execute(f"SELECT [Сотрудники].[Код], substring([ФИО], 1, charindex(' ', [ФИО]))+substring([ФИО], "
+                       f"charindex(' ', [ФИО])+1,1)+'.'+substring([ФИО], charindex(' ', [ФИО], "
+                       f"charindex(' ', [ФИО])+1)+1,1)+'.' as i , COUNT(t.[id]) AS n "
+                       f"FROM Orion.dbo.Сотрудники right OUTER JOIN "
+                       f"(SELECT [Код], [Закрытие], [Ответственный], [id] "
+                       f"FROM Orion.dbo.[Группы] WHERE ([Закрытие] = 0)) t ON [Сотрудники].[ФИО] = t.[Ответственный] "
+                       f"WHERE ([Запись_удалена] = 0) And ([Ответственный_за_группы] = 1 And [Код_филиала] = {code}) "
                        f"GROUP BY [Сотрудники].[Код], [Сотрудники].[ФИО] ")
+        row = cursor.fetchall()
+    return row
+
+
+def get_get_collaborator_list_num_groups_checked(code):
+    with pyodbc.connect(CONN_STRING) as connection:
+        cursor = connection.cursor()
+        cursor.execute(f"select Код, substring(ФИО, 1, charindex(' ', ФИО))+substring(ФИО, charindex(' ', ФИО)+1,1)+'.'"
+                       "+substring(ФИО, charindex(' ', ФИО, charindex(' ', ФИО)+1)+1,1)+'.' as i from "
+                       "Orion.dbo.Сотрудники WHERE (Запись_удалена = 0) And (Ответственный_за_группы = 1 And "
+                       f"Код_филиала = {code})")
         row = cursor.fetchall()
     return row
